@@ -1,13 +1,35 @@
 {
-  "name": "Laradock",
+  "name": "Wordpress Dev Container",
   "dockerComposeFile": "../docker-compose.yml",
   "remoteUser": "laradock",
+  "settings": { 
+		"terminal.integrated.shell.linux": "/bin/zsh"
+	},
   "runServices": [
-    "nginx",
-    "postgres",
-    "pgadmin"
+    "nginx", 
+    "mysql", 
+    "maildev",
+    "wordpress",
+    "workspace" 
   ],
   "service": "workspace",
+  "extensions": [
+		"ms-azuretools.vscode-docker", 
+		"bmewburn.vscode-intelephense-client", 
+		"octref.vetur", "dbaeumer.vscode-eslint", 
+		"amiralizadeh9480.laravel-extra-intellisense", 
+		"christian-kohler.path-intellisense", 
+		"hoovercj.vscode-power-mode", 
+		"atlassian.atlascode", 
+		"vector-of-bool.gitflow", 
+		"bradlc.vscode-tailwindcss", 
+		"stef-k.laravel-goto-controller",
+		"codingyu.laravel-goto-view",
+		"neilbrayfield.php-docblocker",
+		"mhutchie.git-graph",
+		"streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens"
+	],
   "workspaceFolder": "/var/www",
   "shutdownAction": "stopCompose",
   "postCreateCommand": "uname -a"
