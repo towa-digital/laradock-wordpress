@@ -6,7 +6,6 @@
 		"terminal.integrated.shell.linux": "/bin/zsh"
 	},
   "runServices": [
-    "nginx", 
     "mysql", 
     "maildev",
     "wordpress",
