@@ -507,7 +507,7 @@ services:
         container_name: 'local-wordpress'
         depends_on:
           - mysql
-        image: 'wordpress:latest'
+        image: '${WORDPRESS_DOCKERIMAGE}'
         ports:
           - '${WORDPRESS_PORT}:80'
         environment:
