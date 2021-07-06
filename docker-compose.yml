@@ -175,6 +175,7 @@ services:
           - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${APP_CODE_PATH_HOST_PLUGINS}:${APP_CODE_PATH_CONTAINER}/wp-content/plugins
         - docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
@@ -193,6 +194,12 @@ services:
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
+        # those need to be added for wp-cli to work
+        - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+        - WORDPRESS_DB_USER=${MYSQL_USER}
+        - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+        - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+        - WORDPRESS_DEBUG=${WORDPRESS_DEBUG}
       networks:
         - frontend
         - backend
@@ -494,6 +501,26 @@ services:
         - "${MYSQL_PORT}:3306"
       networks:
         - backend
+
+### WORDPRESS ###########################################
+    wordpress:
+        container_name: 'local-wordpress'
+        depends_on:
+          - mysql
+        image: 'wordpress:latest'
+        ports:
+          - '${WORDPRESS_PORT}:80'
+        environment:
+          - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+          - WORDPRESS_DB_USER=${MYSQL_USER}
+          - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+          - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+          - WORDPRESS_DEBUG=${WORDPRESS_DEBUG}
+        volumes:
+          - "${APP_CODE_PATH_HOST}:/var/www/html"
+          - "${APP_CODE_PATH_HOST_PLUGINS}:/var/www/html/wp-content/plugins"
+        networks:
+          - backend
 
 ### Percona ################################################
     percona:
